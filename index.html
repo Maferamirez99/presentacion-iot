@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IoT - Presentación Grupal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Paleta original */
+    --blue-dark: #0a0f2c;
+    --blue-mid: #0d1f4f;
+    --blue-accent: #1a4fa8;
+    --cyan: #00c8ff;
+    --cyan-soft: #7ee8fa;
+    --green: #00e5a0;
+    --orange: #ff9a3c;
+    --red: #ff4b6e;
+    --white: #f0f6ff;
+    --gray: #8fa3cc;
+  }
+ 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 22px;
+    background: var(--blue-dark);
+    color: var(--white);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+ 
+  /* ── TOP BAR ── */
+  #topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 28px;
+    background: rgba(13,31,79,0.85);
+    border-bottom: 1px solid rgba(0,200,255,0.2);
+    flex-shrink: 0;
+    gap: 16px;
+  }
+ 
+  #progress-wrap {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  #progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--green));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+ 
+  #slide-counter {
+    font-size: 13px;
+    color: var(--gray);
+    white-space: nowrap;
+  }
+ 
+  .speaker-badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .s-jesus  { background: rgba(0,200,255,0.15); color: var(--cyan); border: 1px solid rgba(0,200,255,0.4); }
+  .s-andrea { background: rgba(0,229,160,0.15); color: var(--green); border: 1px solid rgba(0,229,160,0.4); }
+  .s-mafe   { background: rgba(255,154,60,0.15); color: var(--orange); border: 1px solid rgba(255,154,60,0.4); }
+  .s-angela { background: rgba(160,100,255,0.15); color: #c084fc; border: 1px solid rgba(160,100,255,0.4); }
+  .s-jp     { background: rgba(255,75,110,0.15); color: var(--red); border: 1px solid rgba(255,75,110,0.4); }
+ 
+  /* ── MAIN SLIDE AREA ── */
+  #stage {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+ 
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 36px 60px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    transform: translateX(60px);
+    text-align: center;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(0);
+  }
+  .slide.exit {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+ 
+  /* ── SLIDE TYPES ── */
+  .slide-title {
+    background: radial-gradient(ellipse at 60% 40%, rgba(26,79,168,0.5) 0%, transparent 70%),
+                radial-gradient(ellipse at 20% 80%, rgba(0,200,255,0.15) 0%, transparent 60%),
+                var(--blue-dark);
+  }
+  .slide-content {
+    background: radial-gradient(ellipse at 80% 20%, rgba(13,31,79,0.9) 0%, transparent 60%),
+                var(--blue-dark);
+    text-align: left;
+    justify-content: flex-start;
+    padding-top: 28px;
+  }
+  .slide-colombia {
+    background: radial-gradient(ellipse at 30% 60%, rgba(255,154,60,0.12) 0%, transparent 60%),
+                var(--blue-dark);
+    text-align: left;
+    justify-content: flex-start;
+    padding-top: 28px;
+  }
+  .slide-future {
+    background: radial-gradient(ellipse at 70% 30%, rgba(160,100,255,0.15) 0%, transparent 60%),
+                var(--blue-dark);
+    text-align: left;
+    justify-content: flex-start;
+    padding-top: 28px;
+  }
+  .slide-risk {
+    background: radial-gradient(ellipse at 50% 50%, rgba(255,75,110,0.12) 0%, transparent 60%),
+                var(--blue-dark);
+    text-align: left;
+    justify-content: flex-start;
+    padding-top: 28px;
+  }
+  .slide-close {
+    background: radial-gradient(ellipse at 50% 40%, rgba(26,79,168,0.6) 0%, transparent 70%),
+                var(--blue-dark);
+  }
+ 
+  /* ── TYPOGRAPHY ── */
+  .slide-headline {
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, var(--white) 40%, var(--cyan-soft));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .slide-sub {
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    color: var(--gray);
+    max-width: 750px;
+    line-height: 1.6;
+  }
+  .accent { color: var(--cyan); -webkit-text-fill-color: var(--cyan); }
+  .accent-green { color: var(--green); }
+  .accent-orange { color: var(--orange); }
+  .accent-purple { color: #c084fc; }
+  .accent-red { color: var(--red); }
+ 
+  h2.section-title {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--cyan);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2.section-title.green  { color: var(--green); }
+  h2.section-title.orange { color: var(--orange); }
+  h2.section-title.purple { color: #c084fc; }
+  h2.section-title.red    { color: var(--red); }
+ 
+  /* ── CARDS / GRIDS ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; width: 100%; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; width: 100%; }
+ 
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(0,200,255,0.3); }
+  .card .card-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: var(--cyan); }
+  .card h3.green  { color: var(--green); }
+  .card h3.orange { color: var(--orange); }
+  .card h3.purple { color: #c084fc; }
+  .card h3.red    { color: var(--red); }
+  .card p, .card ul { font-size: 0.82rem; color: var(--gray); line-height: 1.55; }
+  .card ul { padding-left: 14px; }
+  .card ul li { margin-bottom: 3px; }
+ 
+  /* ── STEP LIST ── */
+  .step-list { list-style: none; width: 100%; }
+  .step-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.95rem;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue-accent), var(--cyan));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.9rem; color: #fff;
+    flex-shrink: 0;
+  }
+  .step-num.green  { background: linear-gradient(135deg, #059669, var(--green)); }
+  .step-num.orange { background: linear-gradient(135deg, #c2410c, var(--orange)); }
+  .step-num.purple { background: linear-gradient(135deg, #7e22ce, #c084fc); }
+  .step-list li strong { color: var(--white); }
+ 
+  /* ── STAT BAR ── */
+  .stat-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    margin-top: 16px;
+  }
+  .stat-box {
+    flex: 1;
+    background: rgba(0,200,255,0.07);
+    border: 1px solid rgba(0,200,255,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-box.green  { background: rgba(0,229,160,0.07); border-color: rgba(0,229,160,0.25); }
+  .stat-box.orange { background: rgba(255,154,60,0.07); border-color: rgba(255,154,60,0.25); }
+  .stat-box.red    { background: rgba(255,75,110,0.07); border-color: rgba(255,75,110,0.25); }
+  .stat-box.purple { background: rgba(160,100,255,0.07); border-color: rgba(160,100,255,0.25); }
+  .stat-value { font-size: 1.7rem; font-weight: 800; color: var(--cyan); }
+  .stat-box.green .stat-value  { color: var(--green); }
+  .stat-box.orange .stat-value { color: var(--orange); }
+  .stat-box.red .stat-value    { color: var(--red); }
+  .stat-box.purple .stat-value { color: #c084fc; }
+  .stat-label { font-size: 0.75rem; color: var(--gray); margin-top: 4px; line-height: 1.35; }
+ 
+  /* ── TAG PILLS ── */
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .pill {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: rgba(0,200,255,0.12);
+    border: 1px solid rgba(0,200,255,0.3);
+    color: var(--cyan);
+  }
+  .pill.green  { background: rgba(0,229,160,0.12); border-color: rgba(0,229,160,0.3); color: var(--green); }
+  .pill.orange { background: rgba(255,154,60,0.12); border-color: rgba(255,154,60,0.3); color: var(--orange); }
+  .pill.purple { background: rgba(160,100,255,0.12); border-color: rgba(160,100,255,0.3); color: #c084fc; }
+  .pill.red    { background: rgba(255,75,110,0.12); border-color: rgba(255,75,110,0.3); color: var(--red); }
+ 
+  /* ── TITLE SLIDE SPECIFIC ── */
+  .speaker-list {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .speaker-chip {
+    padding: 6px 16px;
+    border-radius: 24px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: 1px solid;
+  }
+ 
+  /* ── ICON DECORATION ── */
+  .big-icon {
+    font-size: 5rem;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 20px rgba(0,200,255,0.4));
+  }
+ 
+  /* ── CLOSE SLIDE ── */
+  .takeaway-list {
+    list-style: none;
+    margin: 20px auto;
+    max-width: 680px;
+    text-align: left;
+  }
+  .takeaway-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-size: 1rem;
+    color: var(--gray);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .takeaway-list li:last-child { border-bottom: none; }
+  .check { color: var(--green); font-size: 1.1rem; flex-shrink: 0; }
+ 
+  /* ── BOTTOM NAV ── */
+  #nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 12px 28px;
+    background: rgba(13,31,79,0.85);
+    border-top: 1px solid rgba(0,200,255,0.15);
+    flex-shrink: 0;
+  }
+ 
+  .nav-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--white);
+    padding: 8px 22px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    font-family: inherit;
+  }
+  .nav-btn:hover { background: rgba(0,200,255,0.15); border-color: var(--cyan); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+ 
+  #dot-nav { display: flex; gap: 6px; }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .dot.active { background: var(--cyan); transform: scale(1.3); }
+ 
+  /* ── NETWORK DECORATION (title slide) ── */
+  .network-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .network-bg svg { width: 100%; height: 100%; opacity: 0.07; }
+  .slide > *:not(.network-bg) { position: relative; z-index: 1; }
+ 
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(0,200,255,0.08), rgba(0,229,160,0.06));
+    border: 1px solid rgba(0,200,255,0.25);
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-top: 14px;
+    width: 100%;
+    font-size: 0.88rem;
+    color: var(--gray);
+    line-height: 1.55;
+  }
+  .highlight-box strong { color: var(--cyan); }
+  .highlight-box.orange { border-color: rgba(255,154,60,0.3); }
+  .highlight-box.orange strong { color: var(--orange); }
+  .highlight-box.red { border-color: rgba(255,75,110,0.3); }
+  .highlight-box.red strong { color: var(--red); }
+ 
+  /* responsive tweaks */
+  @media (max-width: 900px) {
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .slide { padding: 20px 24px; }
+  }
+  @media (max-width: 600px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+ 
+<!-- TOP BAR -->
+<div id="topbar">
+  <div id="progress-wrap"><div id="progress-bar"></div></div>
+  <div id="slide-counter">1 / 15</div>
+  <div id="speaker-label" class="speaker-badge s-jesus">Don Jesús</div>
+</div>
+ 
+<!-- SLIDES -->
+<div id="stage">
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 0 — PORTADA
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-title active" data-speaker="none">
+    <div class="network-bg">
+      <svg viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="200" cy="150" r="6" fill="#00c8ff"/>
+        <circle cx="600" cy="100" r="6" fill="#00c8ff"/>
+        <circle cx="1000" cy="200" r="6" fill="#00c8ff"/>
+        <circle cx="400" cy="400" r="6" fill="#00e5a0"/>
+        <circle cx="800" cy="450" r="6" fill="#00e5a0"/>
+        <circle cx="100" cy="500" r="6" fill="#00c8ff"/>
+        <circle cx="1100" cy="480" r="6" fill="#00c8ff"/>
+        <circle cx="700" cy="300" r="10" fill="#00c8ff"/>
+        <line x1="200" y1="150" x2="600" y2="100" stroke="#00c8ff" stroke-width="1"/>
+        <line x1="600" y1="100" x2="1000" y2="200" stroke="#00c8ff" stroke-width="1"/>
+        <line x1="600" y1="100" x2="700" y2="300" stroke="#00c8ff" stroke-width="1"/>
+        <line x1="700" y1="300" x2="400" y2="400" stroke="#00e5a0" stroke-width="1"/>
+        <line x1="700" y1="300" x2="800" y2="450" stroke="#00e5a0" stroke-width="1"/>
+        <line x1="200" y1="150" x2="100" y2="500" stroke="#00c8ff" stroke-width="1"/>
+        <line x1="1000" y1="200" x2="1100" y2="480" stroke="#00c8ff" stroke-width="1"/>
+        <line x1="400" y1="400" x2="100" y2="500" stroke="#00e5a0" stroke-width="1"/>
+        <line x1="800" y1="450" x2="1100" y2="480" stroke="#00c8ff" stroke-width="1"/>
+      </svg>
+    </div>
+ 
+    <div class="big-icon">🌐</div>
+    <div class="slide-headline">Internet de las Cosas</div>
+    <div style="font-size:1.1rem; color:var(--cyan); font-weight:600; margin-bottom:8px; letter-spacing:0.05em;">IoT ·  Dispositivos conectados que convierten datos físicos en decisiones automáticas.</div>
+ 
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 1 — Definición
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-content" data-speaker="jesus">
+    <h2 class="section-title">🔌 ¿Qué es el IoT?</h2>
+ 
+    <div class="highlight-box" style="margin-bottom:18px;">
+      El <strong> Internet de las Cosas</strong>,conocido como <strong> IoT </strong> por sus siglas en inglés Internet of Things, es un concepto tecnológico que describe la interconexión de objetos físicos a través de internet, permitiéndoles recopilar, intercambiar y actuar sobre datos <strong> sin intervención humana directa.</strong>
+    </div>
+ 
+    <div class="grid-2" style="margin-top:4px;">
+      <div class="card">
+        <div class="card-icon">💡</div>
+        <h3>Concepto clave</h3>
+        <p>Cualquier objeto que pueda <strong>encenderse y conectarse</strong> puede ser parte del IoT. No solo computadoras o teléfonos.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <h3>¿Qué conecta?</h3>
+        <p> Por ejemplo: </p>
+        <ul>
+          <li><strong>EN CASA:</strong> Sistemas de seguridad,Bombillos, refrigeradores, cafeteras, televisores. </li>
+          <li><strong>EN INDUSTRIA:</strong> Maquinaria, sensores de producción, vehículos. </li>
+          <li><strong>EN SALUD:</strong> Monitores cardíacos, dispositivos médicos. </li>
+          <li><strong>EN AGRICULTURA:</strong> Sensores de suelo, drones, sistemas de riego. </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 2 — Las 4 etapas
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-content" data-speaker="jesus">
+    <h2 class="section-title">⚙️ Cómo funciona — Las 4 etapas</h2>
+ 
+    <ul class="step-list">
+      <li>
+        <div class="step-num">1</div>
+        <div><strong>Capturar datos</strong> — Sensores detectan algo del entorno: temperatura, movimiento, presión, ubicación GPS.</div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div><strong>Compartir datos</strong> — El dispositivo envía la información a la nube vía <span class="accent">WiFi, 5G, Bluetooth</span> o redes especializadas como NB-IoT (Narrowband-IoT ).</div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div><strong>Procesar datos</strong> — Software y algoritmos (cada vez más con IA) analizan la información y detectan patrones. </div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div><strong>Actuar</strong> — El sistema ejecuta una acción automática o envía alertas al usuario.</div>
+      </li>
+    </ul>
+    <div class="highlight-box" style="margin-top:18px;">
+      <p style="font-size:0.9rem; line-height:1.6;">
+        <strong>Ejemplo práctico:</strong> Sensor en turbina industrial detecta vibración anormal → sistema analiza el patrón con IA → alerta al ingeniero antes de que ocurra la falla → la turbina nunca para → disminución de
+     <strong style="color:var(--green);">pérdidas de producción</strong>.   
+      </p>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 3 — Componentes
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-content" data-speaker="jesus">
+    <h2 class="section-title">🧩 Componentes esenciales del IoT</h2>
+ 
+    <div class="grid-3" style="margin-top:6px;">
+      <div class="card">
+        <div class="card-icon">📡</div>
+        <h3>Sensores (microprocesadores y actuadores)</h3>
+        <p>Captan datos del mundo físico como:</p>
+        <ul>
+          <li>Temperatura</li>
+          <li>Movimiento</li>
+          <li>Presión</li>
+          <li>Humedad</li>
+          <li>GPS</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">📶</div>
+        <h3>Conectividad</h3>
+        <p>Los dispositivos se comunican mediante redes como:</p>
+        <ul>
+          <li>WiFi</li>
+          <li>Bluetooth</li>
+          <li>Redes móviles (4G, 5G, etc.)</li>
+          <li>Métodos por cable</li>
+          <li>Protocolos como Narrowband-IoT y LoRa (Long Range)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">☁️</div>
+        <h3>Plataforma Cloud</h3>
+        <p>Los datos se almacenan y analizan en servidores o en la nube. <p>
+          <ul>
+            <li>AWS IoT</li>
+            <li>Azure</li>
+            <li>IBM Watson</li>
+          </ul>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <h3>Interfaz de Usuario</h3>
+        <p>Aplicaciones o paneles de control donde las personas supervisan o gestionan el sistema: apps móviles, dashboards web y alertas push.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <h3>Inteligencia Artificial</h3>
+        <p>Analiza patrones y automatiza decisiones sin intervención humana (mantenimiento predictivo, chequeo médico, recomendaciones, etc.).</p>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 4 — IoE / AIoT
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-content" data-speaker="andrea">
+    <h2 class="section-title green">📚 Las grandes categorías del IoT</h2>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-icon">🏠</div>
+        <h3 class="green">IoT de Consumo (Consumer IoT)</h3>
+        <p>Objetos cotidianos conectados para mejorar la vida personal:</p>
+        <ul>
+          <li>Smart home: termostatos, bombillos, cámaras de seguridad</li>
+          <li>Wearables: relojes inteligentes, monitores de salud</li>
+          <li>Electrodomésticos inteligentes: neveras, lavadoras conectadas</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏭</div>
+        <h3 class="green">IoT Industrial (IIoT)</h3>
+        <p>Dispositivos en manufactura, logística y empresas para generar eficiencia:</p>
+        <ul>
+          <li>Monitoreo de maquinaria en tiempo real</li>
+          <li>Gestión de cadenas de suministro</li>
+          <li>Control de calidad automatizado</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="card">
+        <div class="card-icon">🏙️</div>
+        <h3 class="green">IoT Urbano (Smart Cities)</h3>
+        <p>Infraestructura pública conectada:</p>
+        <ul>
+          <li>Semáforos inteligentes que optimizan el tráfico</li>
+          <li>Redes eléctricas inteligentes (smart grids)</li>
+          <li>Gestión de residuos y agua</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏥</div>
+        <h3 class="green">IoT en Salud (IoMT)</h3>
+        <p>Dispositivos médicos conectados:</p>
+        <ul>
+          <li>Monitoreo remoto de pacientes</li>
+          <li>Implantes con sensores cardíacos</li>
+          <li>Equipos hospitalarios conectados</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 5 — Consumer IoT (Personas)
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-content" data-speaker="andrea">
+    <h2 class="section-title green">🏠 Usos para Personas — Consumer IoT</h2>
+ 
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon">🏡</div>
+        <h3 class="green">Smart Home</h3>
+        <ul>
+          <li>Termostatos que aprenden tus horarios</li>
+          <li>Bombillas que se encienden al llegar</li>
+          <li>Cámaras de seguridad con alertas en tiempo real</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">⌚</div>
+        <h3 class="green">Wearables y Salud</h3>
+        <ul>
+          <li>Relojes inteligentes: ritmo cardíaco, sueño, actividad</li>
+          <li>Monitores de glucosa continuos para diabéticos</li>
+          <li>Implantes cardíacos que alertan a médicos ante arritmias</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🍽️</div>
+        <h3 class="green">Electrodomésticos</h3>
+        <ul>
+          <li>Neveras que avisan cuando falta leche</li>
+          <li>Lavadoras que optimizan ciclos según ropa</li>
+          <li>Cafeteras que preparan café cuando suena la alarma</li>
+        </ul>
+      </div>
+    </div>
+ 
+    <div class="highlight-box" style="margin-top:16px; border-color:rgba(0,229,160,0.3);">
+      <strong style="color:var(--green);">Impacto:</strong> El IoT para personas convierte el hogar y el cuerpo en entornos inteligentes que anticipan necesidades y mejoran la calidad de vida.
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 6 — Industrial IoT (Empresas)
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-content" data-speaker="andrea">
+    <h2 class="section-title green">🏭 Usos para Empresas — IIoT</h2>
+ 
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-icon">🔧</div>
+        <h3 class="green">Manufactura</h3>
+        <ul>
+          <li>Mantenimiento predictivo: sensores detectan fallos antes de que ocurran</li>
+          <li>Reducción de tiempos muertos hasta <strong>30%</strong></li>
+          <li>Control de calidad automatizado en líneas de producción</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚛</div>
+        <h3 class="green">Logística y Supply Chain</h3>
+        <ul>
+          <li>Rastreo GPS en tiempo real de flotas y mercancías</li>
+          <li>Sensores de temperatura en contenedores refrigerados</li>
+          <li>Optimización de rutas automática según tráfico</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3 class="green">Utilities</h3>
+        <ul>
+          <li>Medidores inteligentes de agua, gas y electricidad</li>
+          <li>Detección automática de fugas en acueductos</li>
+          <li>Smart grids que balancean demanda energética</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛒</div>
+        <h3 class="green">Retail</h3>
+        <ul>
+          <li>Góndolas inteligentes que detectan falta de inventario</li>
+          <li>Sistemas de pago sin contacto</li>
+          <li>Análisis de flujo de clientes en tiendas</li>
+        </ul>
+      </div>
+    </div>
+ 
+    <div class="stat-row" style="margin-top:14px;">
+      <div class="stat-box green"><div class="stat-value">25–30%</div><div class="stat-label">Reducción de costos operativos con IIoT</div></div>
+      <div class="stat-box orange"><div class="stat-value">30%</div><div class="stat-label">Reducción de tiempos muertos en manufactura</div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 7 — IoT vs IoE / AIoT
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-future" data-speaker="andrea">
+    <h2 class="section-title green">🌐 De IoT a IoE a AIoT</h2>
+
+    <div class="highlight-box" style="margin-top:18px; margin-bottom:18px; border-color:rgba(0,229,160,0.4);">
+      <p style="font-size:0.9rem; line-height:1.6;">
+        El IoT está evolucionando hacia el Internet de Todo (<strong>IoE - Internet of Everything</strong>), que conecta no solo objetos, sino también <strong>personas, procesos y datos</strong> en un ecosistema unificado. La integración con <strong>Inteligencia Artificial</strong> convierte al IoT en <strong>AIoT</strong>, donde los dispositivos no solo recopilan datos sino que <strong>aprenden, predicen y toman decisiones autónomas</strong>.
+      </p>
+    </div>
+
+    <div class="grid-2">
+      <!-- Bloque izquierdo: La evolución -->
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3 class="green">La evolución</h3>
+        <div class="highlight-box" style="margin-top:10px;">
+          <p style="font-size:0.9rem; margin-bottom:6px;">
+            <strong>IoT →</strong> Cosas conectadas que <strong>envían datos</strong>.
+          </p>
+          <p style="font-size:0.9rem; margin-bottom:6px;">
+            <strong>IoE →</strong> Cosas + Personas + Procesos + Datos <strong>integrados</strong> en un ecosistema (marco propuesto por Cisco).
+          </p>
+          <p style="font-size:0.9rem;">
+            <strong>AIoT →</strong> Todo lo anterior + sistemas que <strong>aprenden, predicen y deciden</strong> de forma autónoma.
+          </p>
+        </div>
+      </div>
+
+      <!-- Bloque derecho: Ejemplo narrativo -->
+      <div class="card">
+        <div class="card-icon">🏭</div>
+        <h3 class="green">Un ejemplo que lo dice todo</h3>
+        <p style="font-size:0.9rem; margin-top:6px;">
+          Una fábrica instala sensores en sus máquinas:
+        </p>
+        <ul style="font-size:0.9rem; margin-top:6px;">
+          <li><strong>Con IoT:</strong> los sensores envían datos de vibración a la nube.</li>
+          <li><strong>Con IoE:</strong> esos datos alertan al técnico, activan un proceso de mantenimiento y se integran al sistema de producción automáticamente.</li>
+          <li><strong>Con AIoT:</strong> el sistema <strong>predice la falla 3 días antes</strong> y agenda la reparación sin que nadie lo pida.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 8 — Colombia 2026
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-colombia" data-speaker="mafe">
+    <h2 class="section-title orange">🇨🇴 Colombia 2026 — Año Decisivo</h2>
+ 
+    <div class="grid-2">
+      <div>
+        <div class="card" style="border-color:rgba(255,154,60,0.3); margin-bottom:14px;">
+          <div class="card-icon">📅</div>
+          <h3 class="orange">3 eventos simultáneos en 2026</h3>
+          <ul>
+            <li>Fin del roaming permanente M2M</li>
+            <li>Apagón de redes 2G/3G</li>
+            <li>Consolidación de redes exclusivas IoT</li>
+          </ul>
+        </div>
+        <div class="card" style="border-color:rgba(255,154,60,0.3);">
+          <div class="card-icon">🏆</div>
+          <h3 class="orange">Posición regional</h3>
+          <p>Colombia es el <strong>2° país en Latinoamérica</strong> con infraestructura NB-IoT desplegada.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-color:rgba(255,154,60,0.3); height:100%;">
+          <div class="card-icon">📡</div>
+          <h3 class="orange">Infraestructura Movistar (2024)</h3>
+          <ul>
+            <li>Primera red exclusiva IoT: <strong>NB-IoT y LTE-M</strong></li>
+            <li><strong>50%</strong> del territorio nacional habilitado</li>
+            <li>Baterías de dispositivos que duran <strong>años</strong></li>
+            <li>Bajo consumo energético por diseño</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="stat-row" style="margin-top:14px;">
+      <div class="stat-box orange"><div class="stat-value">50%</div><div class="stat-label">Cobertura NB-IoT del territorio</div></div>
+      <div class="stat-box"><div class="stat-value">#2</div><div class="stat-label">En Latinoamérica en infraestructura IoT</div></div>
+      <div class="stat-box orange"><div class="stat-value">2026</div><div class="stat-label">Año de transición tecnológica clave</div></div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 8 — Casos de éxito Colombia
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-colombia" data-speaker="mafe">
+    <h2 class="section-title orange">✅ Casos de éxito en Colombia</h2>
+ 
+    <div class="grid-3">
+      <div class="card" style="border-color:rgba(255,154,60,0.3);">
+        <div class="card-icon">🐄</div>
+        <h3 class="orange">Ganadería — Meta y Vichada</h3>
+        <p>Collares IoT en ganado detectan enfermedades y estrés animal.</p>
+        <div style="margin-top:10px; padding:8px 12px; background:rgba(0,229,160,0.1); border-radius:6px; font-size:0.82rem; color:var(--green); font-weight:700;">
+          ✅ +20% productividad del hato
+        </div>
+      </div>
+      <div class="card" style="border-color:rgba(255,154,60,0.3);">
+        <div class="card-icon">🌾</div>
+        <h3 class="orange">Cultivos — Huila y Tolima</h3>
+        <p>Sensores de humedad en suelos para riego automatizado de arroz.</p>
+        <div style="margin-top:10px; padding:8px 12px; background:rgba(0,229,160,0.1); border-radius:6px; font-size:0.82rem; color:var(--green); font-weight:700;">
+          ✅ −25% consumo de agua
+        </div>
+      </div>
+      <div class="card" style="border-color:rgba(255,154,60,0.3);">
+        <div class="card-icon">💧</div>
+        <h3 class="orange">EPM — Medellín</h3>
+        <p>25% servicios públicos Colombia. Smart metering + detección de fraude en tiempo real.</p>
+      </div>
+    </div>
+ 
+    <div class="card" style="margin-top:14px; border-color:rgba(255,154,60,0.3);">
+      <div style="display:flex; gap:20px; align-items:center;">
+        <div style="font-size:2.5rem;">🏥</div>
+        <div>
+          <h3 class="orange" style="font-size:1rem;">Salud — Telemonitoreo IoT</h3>
+          <p style="font-size:0.83rem; color:var(--gray);">Más de <strong>55 instituciones</strong> usan dispositivos IoT para telemonitoreo. Modelo "Hospital Padrino": Fundación Valle del Lili asiste hospitales rurales vía teleasistencia. Sensores wearables para prevención de ACV.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 9 — Desafíos Colombia
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-colombia" data-speaker="mafe">
+    <h2 class="section-title orange">⚠️ Desafíos críticos de Colombia</h2>
+ 
+    <div class="grid-3">
+      <div class="card" style="border-color:rgba(255,75,110,0.3);">
+        <div class="card-icon">📶</div>
+        <h3 class="red">Brecha digital rural</h3>
+        <ul>
+          <li>Solo <strong>16%</strong> de zonas rurales con internet</li>
+          <li>Urbano: <strong>66.5%</strong> vs Rural: <strong>23.8%</strong></li>
+          <li>Solución: Conectividad satelital IoT (Orinoquía/Amazonía)</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(255,75,110,0.3);">
+        <div class="card-icon">📉</div>
+        <h3 class="red">Crecimiento lento</h3>
+        <ul>
+          <li>Meta gobierno 2026: <strong>71.3 millones</strong> de conexiones</li>
+          <li>Realidad 2024: <strong>58.5 millones</strong></li>
+          <li>Incumplimiento de operadores 5G en instalación de antenas</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(255,75,110,0.3);">
+        <div class="card-icon">⚖️</div>
+        <h3 class="red">Regulación en construcción</h3>
+        <ul>
+          <li>MinTIC impulsa Proyecto de Ley 043/2025</li>
+          <li>Iniciativa <strong>Territorios IA</strong>: 50 municipios con código abierto</li>
+          <li>Objetivo: Soberanía digital</li>
+        </ul>
+      </div>
+    </div>
+ 
+    <div class="stat-row" style="margin-top:14px;">
+      <div class="stat-box red"><div class="stat-value">16%</div><div class="stat-label">Cobertura de internet en zonas rurales</div></div>
+      <div class="stat-box"><div class="stat-value">58.5M</div><div class="stat-label">Conexiones reales 2024 vs. meta 71.3M</div></div>
+      <div class="stat-box orange"><div class="stat-value">50</div><div class="stat-label">Municipios en Territorios IA</div></div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 10 — Tecnologías emergentes
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-future" data-speaker="angela">
+    <h2 class="section-title purple">🚀 Tecnologías emergentes — Gemelos Digitales</h2>
+ 
+    <div class="grid-2">
+      <div class="card" style="border-color:rgba(160,100,255,0.3);">
+        <div class="card-icon">🪞</div>
+        <h3 class="purple">¿Qué es un Gemelo Digital?</h3>
+        <p>Réplica virtual de un sistema físico que permite <strong>simular escenarios</strong>. Los sensores IoT alimentan el modelo digital con datos en tiempo real.</p>
+        <div style="margin-top:10px; padding:8px; background:rgba(160,100,255,0.08); border-radius:6px; font-size:0.82rem; font-weight:700; color:#c084fc;">
+          Inversión global 2026: USD $48 mil millones
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-color:rgba(160,100,255,0.3); margin-bottom:12px;">
+          <div class="card-icon">🏥</div>
+          <h3 class="purple">Hospitales</h3>
+          <p style="font-size:0.82rem;">Gemelos digitales de infraestructuras para predecir saturación de UCIs.</p>
+        </div>
+        <div class="card" style="border-color:rgba(160,100,255,0.3); margin-bottom:12px;">
+          <div class="card-icon">🏙️</div>
+          <h3 class="purple">Ciudades inteligentes</h3>
+          <p style="font-size:0.82rem;">Sensores urbanos alimentan gemelos para optimizar tráfico y servicios.</p>
+        </div>
+        <div class="card" style="border-color:rgba(160,100,255,0.3);">
+          <div class="card-icon">🏗️</div>
+          <h3 class="purple">Industria</h3>
+          <p style="font-size:0.82rem;">Simulación de procesos productivos antes de implementarlos físicamente.</p>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="stat-row" style="margin-top:14px;">
+      <div class="stat-box purple"><div class="stat-value">$48B</div><div class="stat-label">Inversión en gemelos digitales 2026 (McKinsey)</div></div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 11 — Convergencia tecnológica
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-future" data-speaker="angela">
+    <h2 class="section-title purple">🔮 Convergencia — IoT + Otras tecnologías</h2>
+ 
+    <div class="grid-2">
+      <div class="card" style="border-color:rgba(160,100,255,0.3);">
+        <div class="card-icon">🤖</div>
+        <h3 class="purple">IoT + IA (AIoT)</h3>
+        <p>IA detecta patrones y predice fallos <strong>antes</strong> que ocurran. Ejemplo: Algoritmos que predicen demanda energética y ajustan generación automáticamente.</p>
+      </div>
+      <div class="card" style="border-color:rgba(160,100,255,0.3);">
+        <div class="card-icon">💻</div>
+        <h3 class="purple">IoT + Edge Computing</h3>
+        <p>Procesamiento local en el dispositivo. Ventajas: <strong>menor latencia + mayor seguridad + operación sin internet</strong>. Crítico para vehículos autónomos y cirugías remotas.</p>
+      </div>
+      <div class="card" style="border-color:rgba(160,100,255,0.3);">
+        <div class="card-icon">📱</div>
+        <h3 class="purple">IoT + 5G</h3>
+        <p>Velocidades <strong>100x superiores a 4G</strong>. Conecta hasta <strong>1 millón de dispositivos por km²</strong>. Habilita drones autónomos y fábricas 100% robotizadas.</p>
+      </div>
+      <div class="card" style="border-color:rgba(160,100,255,0.3);">
+        <div class="card-icon">⛓️</div>
+        <h3 class="purple">IoT + Blockchain</h3>
+        <p>Trazabilidad de datos + contratos inteligentes. Ejemplo: <strong>Seguro de auto que paga automáticamente</strong> si sensores IoT confirman un accidente.</p>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 12 — Modelos de negocio
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-future" data-speaker="angela">
+    <h2 class="section-title purple">💼 Modelos de negocio del futuro</h2>
+ 
+    <div class="grid-2">
+      <div class="card" style="border-color:rgba(160,100,255,0.3);">
+        <div class="card-icon">🔄</div>
+        <h3 class="purple">De producto a servicio (IoTaaS)</h3>
+        <p>Ya no se vende una bomba, se cobra por <strong>"cantidad de agua bombeada"</strong>. Cliente paga por resultado. Fabricante mantiene propiedad y hace mantenimiento predictivo.</p>
+      </div>
+      <div class="card" style="border-color:rgba(160,100,255,0.3);">
+        <div class="card-icon">📊</div>
+        <h3 class="purple">Monetización de datos</h3>
+        <p>Aseguradoras compran datos de conducción para ajustar primas en tiempo real. Fabricantes compran datos de uso para optimizar diseños futuros.</p>
+      </div>
+      <div class="card" style="border-color:rgba(160,100,255,0.3);">
+        <div class="card-icon">🚗</div>
+        <h3 class="purple">Seguros por comportamiento</h3>
+        <p>IoT en vehículos monitorea conducción. <strong>Buen conductor = menor prima</strong>. Prima ajustada dinámicamente según datos reales.</p>
+      </div>
+      <div class="card" style="border-color:rgba(160,100,255,0.3);">
+        <div class="card-icon">📦</div>
+        <h3 class="purple">Electrodomésticos + Suscripción</h3>
+        <p>Lavadora "básica" + funciones premium por suscripción mensual. Mantenimiento predictivo incluido en el plan.</p>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 13 — Riesgos privacidad
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-risk" data-speaker="jp">
+    <h2 class="section-title red">🔐 Riesgos críticos — Privacidad</h2>
+ 
+    <div class="grid-2">
+      <div class="card" style="border-color:rgba(255,75,110,0.3);">
+        <div class="card-icon">📋</div>
+        <h3 class="red">Recolección abusiva de datos</h3>
+        <ul>
+          <li>Fabricantes recopilan más datos de los necesarios</li>
+          <li>Venta a intermediarios sin consentimiento explícito</li>
+          <li>Perfilado social y publicidad dirigida invasiva</li>
+          <li><em style="font-size:0.78rem;">Tu aspiradora robot mapea tu casa → esos planos se venden a aseguradoras</em></li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(255,75,110,0.3);">
+        <div class="card-icon">🔓</div>
+        <h3 class="red">Vulnerabilidades técnicas</h3>
+        <ul>
+          <li>Autenticación débil (contraseñas por defecto)</li>
+          <li>Transmisión de datos sin cifrado en redes públicas</li>
+          <li>Pérdida del anonimato en servicios que antes lo garantizaban</li>
+          <li>Dispositivos mal configurados = puertas de entrada para ataques</li>
+        </ul>
+      </div>
+    </div>
+ 
+    <div class="card" style="margin-top:14px; border-color:rgba(255,75,110,0.3);">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <div style="font-size:2rem;">🌐</div>
+        <div>
+          <h3 class="red" style="font-size:0.95rem;">Problema regulatorio global</h3>
+          <p style="font-size:0.83rem; color:var(--gray);">Tus datos se recopilan en tu sala, se almacenan en un país y se procesan en otro. Tus derechos dependen de <strong>dónde terminan tus datos</strong>. Marcos regulatorios basados en autorregulación empresarial — no es suficiente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 14 — Riesgos seguridad
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-risk" data-speaker="jp">
+    <h2 class="section-title red">🛡️ Riesgos críticos — Seguridad física y jurídica</h2>
+ 
+    <div class="grid-3">
+      <div class="card" style="border-color:rgba(255,75,110,0.3);">
+        <div class="card-icon">⚡</div>
+        <h3 class="red">Infraestructura crítica</h3>
+        <ul>
+          <li>Hackers pueden tomar control de redes eléctricas inteligentes</li>
+          <li>Ransomware en hospitales = peligro de vidas humanas</li>
+          <li>Sabotaje a sistemas de agua potable municipal</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(255,75,110,0.3);">
+        <div class="card-icon">🤖</div>
+        <h3 class="red">Ciberseguridad IoT</h3>
+        <ul>
+          <li>Muchos dispositivos no reciben actualizaciones de seguridad</li>
+          <li>Fabricantes abandonan soporte tras 2-3 años</li>
+          <li>Botnets IoT: millones de dispositivos hackeados para ataques DDoS</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(255,75,110,0.3);">
+        <div class="card-icon">⚖️</div>
+        <h3 class="red">Marco legal colombiano</h3>
+        <ul>
+          <li><strong>Art. 197.1:</strong> Espionaje y acoso = delitos contra la intimidad</li>
+          <li><strong>Arts. 248-251:</strong> Uso fraudulento de datos = estafa</li>
+          <li>Brechas de seguridad tienen consecuencias legales graves para empresas</li>
+        </ul>
+      </div>
+    </div>
+ 
+    <div class="highlight-box red" style="margin-top:14px;">
+      <strong>Regla de oro:</strong> La seguridad en IoT no es opcional — es un requisito de diseño. Un dispositivo inseguro conectado compromete toda la red.
+    </div>
+  </div>
+ 
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 15 — Oportunidades y cierre
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-close" data-speaker="jp">
+    <h2 class="section-title" style="justify-content:center; text-align:center;">🌟 Oportunidades para Colombia + Cierre</h2>
+ 
+    <div class="grid-3" style="width:100%; margin-bottom:16px;">
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <h3 class="accent-green">Económicas</h3>
+        <ul>
+          <li>Hub tecnológico regional con NB-IoT desplegado</li>
+          <li>Exportar soluciones IoT rurales a Latinoamérica</li>
+          <li>-25 a -30% costos operativos con IIoT</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌿</div>
+        <h3 class="accent-green">Ambientales</h3>
+        <ul>
+          <li>Agricultura de precisión: -25% consumo de agua</li>
+          <li>Smart grids: reducción de pérdidas energéticas</li>
+          <li>Monitoreo ambiental en tiempo real</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">❤️</div>
+        <h3 class="accent-green">Sociales</h3>
+        <ul>
+          <li>Cerrar brecha digital rural con IoT satelital</li>
+          <li>Acceso a salud en zonas remotas vía telemonitoreo</li>
+          <li>Optimizar recursos hídricos en regiones con escasez</li>
+        </ul>
+      </div>
+    </div>
+ 
+    <div style="background:rgba(0,200,255,0.06); border:1px solid rgba(0,200,255,0.2); border-radius:12px; padding:18px 24px; max-width:700px; margin:0 auto;">
+      <div style="font-size:1.05rem; font-weight:700; color:var(--cyan); margin-bottom:12px; text-align:center;"></div>
+      <p style="font-size:0.9rem; color:var(--gray); line-height:1.7; text-align:center;">El IoT es el <strong style="color:var(--white);">sistema nervioso de la transformación digital</strong>. Colombia tiene la infraestructura, los casos de éxito y el potencial. Necesitamos:</p>
+      <ul class="takeaway-list" style="margin-top:10px;">
+        <li><span class="check">✅</span> Acelerar cobertura rural</li>
+        <li><span class="check">✅</span> Fortalecer marcos regulatorios de privacidad y seguridad</li>
+        <li><span class="check">✅</span> Capacitar talento especializado</li>
+      </ul>
+      <div style="text-align:center; margin-top:12px; font-size:1.1rem; font-weight:800; color:var(--cyan);">
+        "El futuro no es predecir, es construir."
+      </div>
+    </div>
+  </div>
+ 
+</div><!-- /stage -->
+ 
+<!-- BOTTOM NAV -->
+<div id="nav">
+  <button class="nav-btn" id="btn-prev" onclick="go(-1)" disabled>← Anterior</button>
+  <div id="dot-nav"></div>
+  <button class="nav-btn" id="btn-next" onclick="go(1)">Siguiente →</button>
+</div>
+ 
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+ 
+const speakers = {
+  none:   { label: 'Presentación',  cls: 's-jesus' },
+  jesus:  { label: 'Jesus',     cls: 's-jesus' },
+  andrea: { label: 'Andrea',        cls: 's-andrea' },
+  mafe:   { label: 'Mafe',          cls: 's-mafe' },
+  angela: { label: 'Angela',        cls: 's-angela' },
+  jp:     { label: 'Juan Pablo',    cls: 's-jp' },
+};
+ 
+const slideNumbers = [
+  'Portada',
+  '1: Definición',
+  '2: Las 4 etapas',
+  '3: Componentes',
+  '4: Categorías de IoT',
+  '5: Consumer IoT',
+  '6: IIoT Empresas',
+  '7: IoT vs IoE',
+  '8: Colombia 2026',
+  '9: Casos de éxito',
+  '10: Desafíos',
+  '11: Gemelos Digitales',
+  '12: Convergencia',
+  '13: Modelos de Negocio',
+  '14: Privacidad',
+  '15: Seguridad',
+  '16: Cierre',
+];
+ 
+// Build dots
+const dotNav = document.getElementById('dot-nav');
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotNav.appendChild(d);
+}
+ 
+function goTo(idx) {
+  if (idx < 0 || idx >= total) return;
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  setTimeout(() => slides[current < idx ? current : idx + 1]?.classList.remove('exit'), 460);
+ 
+  const prev = current;
+  current = idx;
+ 
+  slides[prev].classList.remove('exit');
+  slides[current].classList.add('active');
+ 
+  // Dots
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+ 
+  // Progress
+  const pct = (current / (total - 1)) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+ 
+  // Counter
+  document.getElementById('slide-counter').textContent = (current + 1) + ' / ' + total;
+ 
+  // Speaker
+  const sp = slides[current].dataset.speaker || 'none';
+  const info = speakers[sp] || speakers.none;
+  const badge = document.getElementById('speaker-label');
+  badge.textContent = info.label;
+  badge.className = 'speaker-badge ' + info.cls;
+ 
+  // Buttons
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === total - 1;
+}
+ 
+function go(dir) { goTo(current + dir); }
+ 
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); go(-1); }
+  if (e.key === 'Home') goTo(0);
+  if (e.key === 'End')  goTo(total - 1);
+});
+ 
+// Touch/swipe support
+let startX = 0;
+document.getElementById('stage').addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+document.getElementById('stage').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - startX;
+  if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+}, {passive:true});
+ 
+// Init
+goTo(0);
+</script>
+</body>
+</html>
