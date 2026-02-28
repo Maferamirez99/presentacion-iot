@@ -446,26 +446,7 @@
   </div>
  
   <!-- ════════════════════════════════════════════════════════════════
-       SLIDE 1 — Definición
-       ════════════════════════════════════════════════════════════════ -->
-  <div class="slide slide-content" data-speaker="jesus">
-    <h2 class="section-title">🎬 Video introductorio</h2>
-
-    <div style="margin-top:10px; max-width:900px; width:100%; aspect-ratio:16/9; border-radius:16px; overflow:hidden; box-shadow:0 18px 45px rgba(0,0,0,0.55);">
-      <iframe
-        width="100%"
-        height="100%"
-        src="https://www.youtube.com/embed/11BmSTN0G_4?autoplay=1&mute=1&rel=0"
-        title="Video introducción IoT"
-        frameborder="0"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    </div>
-  </div>
- 
-  <!-- ════════════════════════════════════════════════════════════════
-       SLIDE 2 — ¿Qué es el IoT?
+       SLIDE 1 — ¿Qué es el IoT?
        ════════════════════════════════════════════════════════════════ -->
   <div class="slide slide-content" data-speaker="jesus">
     <h2 class="section-title">🔌 ¿Qué es el IoT?</h2>
@@ -486,7 +467,7 @@
         <p> Por ejemplo: </p>
         <ul>
           <li><strong>EN CASA:</strong> Sistemas de seguridad, bombillos, refrigeradores, cafeteras, televisores.</li>
-          <li><strong>EN INDUSTRIA:</strong> Maquinaria, sensores de producción, vehículos.</li>
+          <li><strong>EN INDUSTRIA:</strong> Maquinaria, sensores de producción (Gemelos digitales), vehículos.</li>
           <li><strong>EN SALUD:</strong> Monitores cardíacos, dispositivos médicos.</li>
           <li><strong>EN AGRICULTURA:</strong> Sensores de suelo, drones, sistemas de riego.</li>
         </ul>
@@ -507,7 +488,7 @@
       </li>
       <li>
         <div class="step-num">2</div>
-        <div><strong>Compartir datos</strong> — El dispositivo envía la información a la nube vía <span class="accent">WiFi, 5G, Bluetooth</span> o redes especializadas como NB-IoT (Narrowband-IoT).</div>
+        <div><strong>Compartir datos</strong> — El dispositivo envía la información a la nube o a los servidores dedicados vía <span class="accent">WiFi, 5G, Bluetooth</span> o redes especializadas como NB-IoT (Narrowband-IoT).</div>
       </li>
       <li>
         <div class="step-num">3</div>
@@ -535,14 +516,15 @@
     <div class="grid-3" style="margin-top:6px;">
       <div class="card">
         <div class="card-icon">📡</div>
-        <h3>Sensores (microprocesadores y actuadores)</h3>
-        <p>Captan datos del mundo físico como:</p>
+        <h3>Sensores, microprocesadores y actuadores</h3>
+        <p>Sensores: Captan datos del mundo físico como:</p>
         <ul>
           <li>Temperatura</li>
           <li>Movimiento</li>
           <li>Presión</li>
           <li>Humedad</li>
           <li>GPS</li>
+        <p> Microprocesadores:Ejecutan una orden sobre el entorno físico.</p>
         </ul>
       </div>
       <div class="card">
@@ -560,7 +542,7 @@
       <div class="card">
         <div class="card-icon">☁️</div>
         <h3>Plataforma Cloud</h3>
-        <p>Los datos se almacenan y analizan en servidores o en la nube.</p>
+        <p>Los datos se almacenan y analizan en servidores (computación en el borde) o en la nube.</p>
         <ul>
           <li>AWS IoT</li>
           <li>Azure</li>
@@ -786,7 +768,7 @@
           <div class="card-icon">📅</div>
           <h3 class="orange">3 eventos simultáneos en 2026</h3>
           <ul>
-            <li>Fin del roaming permanente M2M</li>
+            <li>Fin del roaming permanente M2M (Machine to Machine)</li>
             <li>Apagón de redes 2G/3G</li>
             <li>Consolidación de redes exclusivas IoT</li>
           </ul>
@@ -794,7 +776,7 @@
         <div class="card" style="border-color:rgba(255,154,60,0.3);">
           <div class="card-icon">🏆</div>
           <h3 class="orange">Posición regional</h3>
-          <p>Colombia es el <strong>2° país en Latinoamérica</strong> con infraestructura NB-IoT desplegada.</p>
+          <p> Colombia fue uno de los primeros países de Latinoamérica en desplegar una red exclusiva NB-IoT</p>
         </div>
       </div>
       <div>
@@ -813,7 +795,6 @@
  
     <div class="stat-row" style="margin-top:14px;">
       <div class="stat-box orange"><div class="stat-value">50%</div><div class="stat-label">Cobertura NB-IoT del territorio</div></div>
-      <div class="stat-box"><div class="stat-value">#2</div><div class="stat-label">En Latinoamérica en infraestructura IoT</div></div>
       <div class="stat-box orange"><div class="stat-value">2026</div><div class="stat-label">Año de transición tecnológica clave</div></div>
     </div>
   </div>
@@ -844,7 +825,7 @@
       <div class="card" style="border-color:rgba(255,154,60,0.3);">
         <div class="card-icon">💧</div>
         <h3 class="orange">EPM — Medellín</h3>
-        <p>25% servicios públicos Colombia. Smart metering + detección de fraude en tiempo real.</p>
+        <p>Provee 25% de servicios públicos en Colombia, esta compañia implemento medidores inteligentes (smart metering), monitoreo de redes de acueductos, detección de fraude en tiempo real </p>
       </div>
     </div>
  
@@ -881,7 +862,7 @@
         <ul>
           <li>Meta gobierno 2026: <strong>71.3 millones</strong> de conexiones</li>
           <li>Realidad 2024: <strong>58.5 millones</strong></li>
-          <li>Incumplimiento de operadores 5G en instalación de antenas</li>
+          <li>Obstaculo: Incumplimiento de operadores 5G en instalación de antenas</li>
         </ul>
       </div>
       <div class="card" style="border-color:rgba(255,75,110,0.3);">
@@ -889,8 +870,8 @@
         <h3 class="red">Regulación en construcción</h3>
         <ul>
           <li>MinTIC impulsa Proyecto de Ley 043/2025</li>
-          <li>Iniciativa <strong>Territorios IA</strong>: 50 municipios con código abierto</li>
-          <li>Objetivo: Soberanía digital</li>
+          <li>Iniciativa <strong>Territorios IA</strong>: 50 municipios implementando soluciones con código abierto</li>
+          <li>Objetivo: Incrementar la soberanía digital y reducir la dependencia de soluciones extranjeras</li>
         </ul>
       </div>
     </div>
@@ -1086,7 +1067,7 @@
        SLIDE 15 — Oportunidades y cierre
        ════════════════════════════════════════════════════════════════ -->
   <div class="slide slide-close" data-speaker="jp">
-    <h2 class="section-title" style="justify-content:center; text-align:center;">🌟 Oportunidades para Colombia + Cierre</h2>
+    <h2 class="section-title" style="justify-content:center; text-align:center;">🌟 Oportunidades para Colombia </h2>
  
     <div class="grid-3" style="width:100%; margin-bottom:16px;">
       <div class="card">
@@ -1126,12 +1107,28 @@
         <li><span class="check">✅</span> Fortalecer marcos regulatorios de privacidad y seguridad</li>
         <li><span class="check">✅</span> Capacitar talento especializado</li>
       </ul>
-      <div style="text-align:center; margin-top:12px; font-size:1.1rem; font-weight:800; color:var(--cyan);">
-        "El futuro no es predecir, es construir."
-      </div>
     </div>
   </div>
- 
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 16 — Video introductorio
+       ════════════════════════════════════════════════════════════════ -->
+  <div class="slide slide-content" data-speaker="jesus">
+    <h2 class="section-title">🎬 Video introductorio</h2>
+
+    <div style="margin-top:10px; max-width:900px; width:100%; aspect-ratio:16/9; border-radius:16px; overflow:hidden; box-shadow:0 18px 45px rgba(0,0,0,0.55);">
+      <iframe
+        width="100%"
+        height="100%"
+        src="https://www.youtube.com/embed/11BmSTN0G_4?autoplay=1&mute=1&rel=0"
+        title="Video introducción IoT"
+        frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+
 </div><!-- /stage -->
  
 <!-- BOTTOM NAV -->
@@ -1157,23 +1154,23 @@ const speakers = {
  
 const slideNumbers = [
   'Portada',
-  '1: Video introductorio',
-  '2: ¿Qué es el IoT?',
-  '3: Las 4 etapas',
-  '4: Componentes',
-  '5: Categorías de IoT',
-  '6: Consumer IoT',
-  '7: IIoT Empresas',
-  '8: IoT vs IoE',
-  '9: Colombia 2026',
-  '10: Casos de éxito',
-  '11: Desafíos',
-  '12: Gemelos Digitales',
-  '13: Convergencia',
-  '14: Modelos de Negocio',
-  '15: Privacidad',
-  '16: Seguridad',
-  '17: Cierre',
+  '1: ¿Qué es el IoT?',
+  '2: Las 4 etapas',
+  '3: Componentes',
+  '4: Categorías de IoT',
+  '5: Consumer IoT',
+  '6: IIoT Empresas',
+  '7: IoT vs IoE',
+  '8: Colombia 2026',
+  '9: Casos de éxito',
+  '10: Desafíos',
+  '11: Gemelos Digitales',
+  '12: Convergencia',
+  '13: Modelos de Negocio',
+  '14: Privacidad',
+  '15: Seguridad',
+  '16: Cierre',
+  '17: Video introductorio',
 ];
  
 // Build dots
